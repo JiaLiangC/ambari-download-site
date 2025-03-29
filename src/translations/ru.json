@@ -1,0 +1,56 @@
+{
+  "title": "Сайт Загрузки Сообщества Apache Ambari",
+  "notice": {
+    "text": "Этот сайт создан и поддерживается разработчиками сообщества Apache Ambari за свой счет для предоставления удобных услуг загрузки. Из-за ограниченного финансирования в настоящее время мы предоставляем только услуги загрузки файлов, без служб репозитория RPM."
+  },
+  "warning": {
+    "text": "Примечание: После загрузки вам необходимо создать свой локальный репозиторий RPM. Пожалуйста, обратитесь к руководству ниже."
+  },
+  "download": {
+    "title": "Ссылки для Загрузки",
+    "rocky8": "Загрузка Пакетов Rocky Linux 8",
+    "rocky9": "Загрузка Пакетов Rocky Linux 9"
+  },
+  "repository": {
+    "title": "Как Создать Локальный Репозиторий RPM",
+    "step1": {
+      "title": "1. Загрузить Необходимые Пакеты RPM",
+      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
+    },
+    "step2": {
+      "title": "2. Установить Инструмент createrepo",
+      "command": "sudo dnf install createrepo"
+    },
+    "step3": {
+      "title": "3. Создать Локальный Репозиторий",
+      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+    },
+    "step4": {
+      "title": "4. Настроить Локальный Репозиторий",
+      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+    }
+  },
+  "notes": {
+    "title": "Важные Примечания",
+    "items": [
+      "Пожалуйста, выбирайте пакеты в соответствии с версией вашей системы (Rocky 8 или Rocky 9)",
+      "Убедитесь, что при создании локального репозитория достаточно места на диске",
+      "Рекомендуется регулярно обновлять локальный репозиторий для получения последних пакетов"
+    ]
+  },
+  "feedback": {
+    "title": "Обратная Связь",
+    "text": "Если вы столкнулись с проблемами, пожалуйста, оставьте отзыв через:",
+    "jira": "Apache Ambari JIRA",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "Списки Рассылки Apache Ambari",
+    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+  },
+  "footer": "Этот сайт поддерживается разработчиками сообщества Apache Ambari",
+  "md5_notice": {
+    "title": "Контрольные суммы MD5",
+    "text": "В целях безопасности вы можете проверить целостность загруженных файлов с помощью контрольных сумм MD5.",
+    "link_text": "Просмотр MD5",
+    "link_url": "/dist/rocky8/MD5SUMS.txt"
+  }
+}

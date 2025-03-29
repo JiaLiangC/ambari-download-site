@@ -1,0 +1,67 @@
+{
+  "title": "Apache Ambari コミュニティダウンロードサイト",
+  "notice": {
+    "text": "このサイトはApache Ambariコミュニティの開発者が自己負担で構築・維持しています。資金が限られているため、現在はファイルのダウンロードサービスのみを提供し、RPMリポジトリサービスは提供していません。"
+  },
+  "warning": {
+    "text": "注意：ダウンロード後、ローカルRPMリポジトリを作成する必要があります。詳細は以下のチュートリアルをご参照ください。"
+  },
+  "bandwidth_notice": {
+    "title": "帯域制限のお知らせ",
+    "text": "サーバーの月間帯域幅制限は3TBです。ダウンロードしたファイルは適切に保存してください。",
+    "contact_info": "ダウンロードの問題やスポンサーシップについては、コミュニティ開発者（jialiangcaimd@gmail.com）までご連絡ください。"
+  },
+  "sponsorship": {
+    "title": "スポンサーシップ情報",
+    "text": "このサイトは現在、コミュニティ貢献者のjialiangcaimd@gmail.comが管理しています。スポンサーをご希望の方はご連絡ください。",
+    "benefits": "スポンサーと協賛企業のリストはApache Ambari公式ウェブサイトに掲載されます。",
+    "usage": "スポンサー資金の使用目的は公式ウェブサイトで公開され、主にサーバー費用とRPM CDN配信に使用されます。"
+  },
+  "download": {
+    "title": "ダウンロードリンク",
+    "rocky8": "Rocky Linux 8 パッケージダウンロード",
+    "rocky9": "Rocky Linux 9 パッケージダウンロード"
+  },
+  "repository": {
+    "title": "ローカルRPMリポジトリの作成方法",
+    "step1": {
+      "title": "1. 必要なRPMパッケージのダウンロード",
+      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
+    },
+    "step2": {
+      "title": "2. createrepoツールのインストール",
+      "command": "sudo dnf install createrepo"
+    },
+    "step3": {
+      "title": "3. ローカルリポジトリの作成",
+      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+    },
+    "step4": {
+      "title": "4. ローカルリポジトリの設定",
+      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+    }
+  },
+  "notes": {
+    "title": "注意事項",
+    "items": [
+      "システムのバージョンに応じたパッケージ（Rocky 8またはRocky 9）を選択してください",
+      "ローカルリポジトリの作成には十分なディスク容量が必要です",
+      "最新のパッケージを取得するため、定期的なローカルリポジトリの更新をお勧めします"
+    ]
+  },
+  "feedback": {
+    "title": "フィードバック",
+    "text": "ご利用中に問題が発生した場合は、以下の方法でフィードバックをお寄せください：",
+    "jira": "Apache Ambari JIRA",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "Apache Ambariメーリングリスト",
+    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+  },
+  "footer": "このサイトはApache Ambariコミュニティの開発者によって維持されています",
+  "md5_notice": {
+    "title": "MD5 チェックサム",
+    "text": "セキュリティのため、ダウンロードしたファイルの整合性をMD5チェックサムで確認できます。",
+    "link_text": "MD5チェックサムを表示",
+    "link_url": "/dist/rocky8/MD5SUMS.txt"
+  }
+}

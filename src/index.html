@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Ambari Community Download Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        .notice {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .language-dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            float: right;
+            gap: 8px;
+        }
+        .language-label {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .language-label svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        .language-button {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 120px;
+            justify-content: space-between;
+            position: relative;
+        }
+        .language-button:hover {
+            background-color: #e9ecef;
+        }
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        .language-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .language-button:after {
+            content: '▼';
+            font-size: 10px;
+        }
+        .language-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+        .language-options.show {
+            display: block;
+        }
+        .language-options a {
+            color: #333;
+            padding: 8px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+        .language-options a:last-child {
+            border-bottom: none;
+        }
+        .language-options a:hover {
+            background-color: #f8f9fa;
+        }
+        .language-options a.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .content-container {
+            display: none;
+        }
+        .content-container.active {
+            display: block;
+        }
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .download-section {
+            margin: 30px 0;
+        }
+        .download-section h3 {
+            margin-top: 30px;
+            color: #2c3e50;
+        }
+        .download-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .download-link {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px 0;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .download-link:hover {
+            background-color: #0056b3;
+        }
+        .md5-links {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        .md5-links p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        .md5-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            margin: 5px 0;
+            color: #666;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .md5-link:hover {
+            background-color: #f1f3f5;
+            border-color: #adb5bd;
+            color: #333;
+        }
+        .md5-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading...</div>
+    <div class="language-dropdown">
+        <div class="language-label">
+            <svg viewBox="0 0 24 24">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+            </svg>
+            Language
+        </div>
+        <button class="language-button" onclick="toggleLanguageOptions()">
+            <span id="selected-language">English</span>
+            <span class="tooltip">Choose your language</span>
+        </button>
+        <div class="language-options" id="language-options">
+            <a href="#" data-lang="en" class="active">English</a>
+            <a href="#" data-lang="zh-CN">中文</a>
+            <a href="#" data-lang="ja">日本語</a>
+            <a href="#" data-lang="ko">한국어</a>
+            <a href="#" data-lang="es">Español</a>
+            <a href="#" data-lang="fr">Français</a>
+            <a href="#" data-lang="de">Deutsch</a>
+            <a href="#" data-lang="it">Italiano</a>
+            <a href="#" data-lang="pt">Português</a>
+            <a href="#" data-lang="ru">Русский</a>
+            <a href="#" data-lang="ar">العربية</a>
+            <a href="#" data-lang="hi">हिंदी</a>
+        </div>
+    </div>
+
+    <div id="content"></div>
+
+    <script>
+        let translations = {};
+        let currentLang = 'en';
+        
+        function toggleLanguageOptions() {
+            document.getElementById('language-options').classList.toggle('show');
+        }
+
+        // Close the dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.language-button') && !event.target.matches('.language-button *')) {
+                const dropdowns = document.getElementsByClassName("language-options");
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+        
+        async function loadTranslation(lang) {
+            try {
+                const response = await fetch(`/download/translations/${lang}.json`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                translations[lang] = data;
+                return data;
+            } catch (error) {
+                console.error('Error loading translation:', error);
+                // Fallback to English if translation fails
+                if (lang !== 'en') {
+                    return loadTranslation('en');
+                }
+                return null;
+            }
+        }
+
+        async function renderContent(translation) {
+            if (!translation) return;
+            
+            const content = `
+                <h1>${translation.title}</h1>
+                <div class="notice">
+                    <p>${translation.notice.text}</p>
+                </div>
+                <div class="warning">
+                    <p>${translation.warning.text}</p>
+                </div>
+                <div class="notice">
+                    <h2>${translation.bandwidth_notice.title}</h2>
+                    <p>${translation.bandwidth_notice.text}</p>
+                    <p>${translation.bandwidth_notice.contact_info}</p>
+                </div>
+                <div class="notice">
+                    <h2>${translation.sponsorship.title}</h2>
+                    <p>${translation.sponsorship.text}</p>
+                    <p>${translation.sponsorship.benefits}</p>
+                    <p>${translation.sponsorship.usage}</p>
+                </div>
+                <div class="download-section">
+                    <h2>${translation.download.title}</h2>
+                    <h3>Ambari 3.0.0</h3>
+                    <ul>
+                        <li><a href="/dist/ambari/3.0.0/rocky8/" class="download-link">${translation.download.rocky8}</a></li>
+                        <li><a href="/dist/ambari/3.0.0/rocky9/" class="download-link">${translation.download.rocky9}</a></li>
+                    </ul>
+                    <div class="md5-links">
+                        <p>${translation.md5_notice.text}</p>
+                        <ul>
+                            <li><a href="/dist/ambari/3.0.0/rocky8/MD5SUMS.txt" class="md5-link">
+                                <svg class="md5-icon" viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/>
+                                </svg>
+                                ${translation.md5_notice.link_text} - Rocky Linux 8
+                            </a></li>
+                            <li><a href="/dist/ambari/3.0.0/rocky9/MD5SUMS.txt" class="md5-link">
+                                <svg class="md5-icon" viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/>
+                                </svg>
+                                ${translation.md5_notice.link_text} - Rocky Linux 9
+                            </a></li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Bigtop 3.3.0</h3>
+                    <ul>
+                        <li><a href="/dist/bigtop/3.3.0/rocky8/" class="download-link">${translation.download.rocky8}</a></li>
+                        <li><a href="/dist/bigtop/3.3.0/rocky9/" class="download-link">${translation.download.rocky9}</a></li>
+                    </ul>
+                    <div class="md5-links">
+                        <p>${translation.md5_notice.text}</p>
+                        <ul>
+                            <li><a href="/dist/bigtop/3.3.0/rocky8/MD5SUMS.txt" class="md5-link">
+                                <svg class="md5-icon" viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/>
+                                </svg>
+                                ${translation.md5_notice.link_text} - Rocky Linux 8
+                            </a></li>
+                            <li><a href="/dist/bigtop/3.3.0/rocky9/MD5SUMS.txt" class="md5-link">
+                                <svg class="md5-icon" viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/>
+                                </svg>
+                                ${translation.md5_notice.link_text} - Rocky Linux 9
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="notice">
+                    <h2>${translation.repository.title}</h2>
+                    <div class="tutorial">
+                        <h3>${translation.repository.step1.title}</h3>
+                        <pre>${translation.repository.step1.command}</pre>
+                        
+                        <h3>${translation.repository.step2.title}</h3>
+                        <pre>${translation.repository.step2.command}</pre>
+                        
+                        <h3>${translation.repository.step3.title}</h3>
+                        <pre>${translation.repository.step3.command}</pre>
+                        
+                        <h3>${translation.repository.step4.title}</h3>
+                        <pre>${translation.repository.step4.command}</pre>
+                    </div>
+                </div>
+                <div class="notice">
+                    <h2>${translation.notes.title}</h2>
+                    <ul>
+                        ${translation.notes.items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="notice" style="margin-top:40px;margin-bottom:40px;background-color:#f5f5f5;">
+                    <h2>${translation.feedback.title}</h2>
+                    <p>${translation.feedback.text}</p>
+                    <ul>
+                        <li>${translation.feedback.jira}: <a href="${translation.feedback.jira_link}">${translation.feedback.jira_link}</a></li>
+                        <li>${translation.feedback.mailing_list}: <a href="${translation.feedback.mailing_list_link}">${translation.feedback.mailing_list_link}</a></li>
+                    </ul>
+                </div>
+                <footer style="margin-top:50px;padding-top:20px;border-top:1px solid #eee;text-align:center;">
+                    <p>${translation.footer}</p>
+                </footer>
+            `;
+            
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = content;
+            contentDiv.className = translation.rtl ? 'rtl' : '';
+        }
+
+        async function changeLanguage(lang) {
+            const loadingElement = document.getElementById('loading');
+            loadingElement.style.display = 'block';
+            
+            try {
+                // Update active language in the dropdown
+                document.querySelectorAll('.language-options a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                const selectedLink = document.querySelector(`.language-options a[data-lang="${lang}"]`);
+                if (selectedLink) {
+                    selectedLink.classList.add('active');
+                    // Update selected language text
+                    document.getElementById('selected-language').textContent = selectedLink.textContent;
+                }
+                
+                // Close dropdown
+                document.getElementById('language-options').classList.remove('show');
+                
+                let translation;
+                if (translations[lang]) {
+                    translation = translations[lang];
+                } else {
+                    translation = await loadTranslation(lang);
+                }
+                
+                if (translation) {
+                    document.documentElement.lang = lang;
+                    document.documentElement.dir = translation.rtl ? 'rtl' : 'ltr';
+                    renderContent(translation);
+                    currentLang = lang;
+                    
+                    // Save language preference
+                    localStorage.setItem('preferred_language', lang);
+                }
+            } catch (error) {
+                console.error('Error changing language:', error);
+            } finally {
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        // Add click event listeners to language options
+        document.querySelectorAll('.language-options a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.getAttribute('data-lang');
+                changeLanguage(lang);
+            });
+        });
+
+        // Initialize with saved language or default to English
+        window.onload = async function() {
+            const savedLang = localStorage.getItem('preferred_language') || 'en';
+            await changeLanguage(savedLang);
+        };
+    </script>
+</body>
+</html>

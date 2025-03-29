@@ -1,0 +1,56 @@
+{
+  "title": "Apache Ambari समुदाय डाउनलोड साइट",
+  "notice": {
+    "text": "यह साइट Apache Ambari समुदाय के डेवलपर्स द्वारा अपने खर्च पर सुविधाजनक डाउनलोड सेवाएं प्रदान करने के लिए स्थापित और बनाए रखी गई है। सीमित फंडिंग के कारण, हम वर्तमान में केवल फ़ाइल डाउनलोड सेवाएं प्रदान करते हैं, RPM रिपॉजिटरी सेवाएं नहीं।"
+  },
+  "warning": {
+    "text": "नोट: डाउनलोड के बाद, आपको अपना स्थानीय RPM रिपॉजिटरी बनाना होगा। कृपया नीचे दिए गए ट्यूटोरियल का संदर्भ लें।"
+  },
+  "download": {
+    "title": "डाउनलोड लिंक",
+    "rocky8": "Rocky Linux 8 पैकेज डाउनलोड",
+    "rocky9": "Rocky Linux 9 पैकेज डाउनलोड"
+  },
+  "repository": {
+    "title": "स्थानीय RPM रिपॉजिटरी कैसे बनाएं",
+    "step1": {
+      "title": "1. आवश्यक RPM पैकेज डाउनलोड करें",
+      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
+    },
+    "step2": {
+      "title": "2. createrepo टूल इंस्टॉल करें",
+      "command": "sudo dnf install createrepo"
+    },
+    "step3": {
+      "title": "3. स्थानीय रिपॉजिटरी बनाएं",
+      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+    },
+    "step4": {
+      "title": "4. स्थानीय रिपॉजिटरी कॉन्फ़िगर करें",
+      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+    }
+  },
+  "notes": {
+    "title": "महत्वपूर्ण नोट्स",
+    "items": [
+      "कृपया अपने सिस्टम वर्जन के अनुसार पैकेज चुनें (Rocky 8 या Rocky 9)",
+      "स्थानीय रिपॉजिटरी बनाते समय पर्याप्त डिस्क स्पेस सुनिश्चित करें",
+      "नवीनतम पैकेज प्राप्त करने के लिए स्थानीय रिपॉजिटरी को नियमित रूप से अपडेट करने की सलाह दी जाती है"
+    ]
+  },
+  "feedback": {
+    "title": "फीडबैक",
+    "text": "यदि आपको कोई समस्या आती है, तो कृपया इनके माध्यम से फीडबैक प्रदान करें:",
+    "jira": "Apache Ambari JIRA",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "Apache Ambari मेलिंग लिस्ट",
+    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+  },
+  "footer": "यह साइट Apache Ambari समुदाय के डेवलपर्स द्वारा बनाए रखी गई है",
+  "md5_notice": {
+    "title": "MD5 चेकसम",
+    "text": "सुरक्षा के लिए, आप डाउनलोड की गई फ़ाइलों की अखंडता को MD5 चेकसम का उपयोग करके सत्यापित कर सकते हैं।",
+    "link_text": "MD5 चेकसम देखें",
+    "link_url": "/dist/rocky8/MD5SUMS.txt"
+  }
+}

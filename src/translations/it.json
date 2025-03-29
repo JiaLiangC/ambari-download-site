@@ -1,0 +1,67 @@
+{
+  "title": "Sito di Download della Comunità Apache Ambari",
+  "notice": {
+    "text": "Questo sito è costruito e mantenuto dagli sviluppatori della comunità Apache Ambari a proprie spese. A causa di fondi limitati, attualmente offriamo solo il servizio di download dei file, senza servizio di repository RPM."
+  },
+  "warning": {
+    "text": "Attenzione: Dopo il download, dovrai creare il tuo repository RPM locale. Consulta il tutorial qui sotto per le istruzioni."
+  },
+  "bandwidth_notice": {
+    "title": "Avviso sul Limite di Banda",
+    "text": "Il server ha un limite di banda mensile di 3TB. Si prega di conservare i file in modo appropriato dopo il download.",
+    "contact_info": "Per problemi di download o domande sulle sponsorizzazioni, contattare lo sviluppatore della comunità: jialiangcaimd@gmail.com"
+  },
+  "sponsorship": {
+    "title": "Informazioni sulle Sponsorizzazioni",
+    "text": "Questo sito è attualmente gestito dal contributore della comunità jialiangcaimd@gmail.com. Se desideri sponsorizzare, ti preghiamo di contattarci.",
+    "benefits": "L'elenco degli sponsor e delle aziende sponsor sarà pubblicato sul sito web ufficiale di Apache Ambari.",
+    "usage": "L'utilizzo di tutti i fondi di sponsorizzazione sarà documentato sul sito web ufficiale, principalmente per i costi del server e la distribuzione CDN RPM."
+  },
+  "download": {
+    "title": "Link per il Download",
+    "rocky8": "Scarica i Pacchetti per Rocky Linux 8",
+    "rocky9": "Scarica i Pacchetti per Rocky Linux 9"
+  },
+  "repository": {
+    "title": "Come Creare un Repository RPM Locale",
+    "step1": {
+      "title": "1. Scaricare i pacchetti RPM necessari",
+      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
+    },
+    "step2": {
+      "title": "2. Installare lo strumento createrepo",
+      "command": "sudo dnf install createrepo"
+    },
+    "step3": {
+      "title": "3. Creare il repository locale",
+      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+    },
+    "step4": {
+      "title": "4. Configurare il repository locale",
+      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+    }
+  },
+  "notes": {
+    "title": "Note Importanti",
+    "items": [
+      "Seleziona i pacchetti in base alla versione del tuo sistema (Rocky 8 o Rocky 9)",
+      "Assicurati di avere spazio su disco sufficiente per creare il repository locale",
+      "Si consiglia di aggiornare regolarmente il repository locale per ottenere i pacchetti più recenti"
+    ]
+  },
+  "feedback": {
+    "title": "Feedback",
+    "text": "Se riscontri problemi durante l'utilizzo, fornisci un feedback tramite:",
+    "jira": "Apache Ambari JIRA",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "Lista di Distribuzione Apache Ambari",
+    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+  },
+  "footer": "Questo sito è mantenuto dagli sviluppatori della comunità Apache Ambari",
+  "md5_notice": {
+    "title": "Checksum MD5",
+    "text": "Per motivi di sicurezza, puoi verificare l'integrità dei file scaricati utilizzando i checksum MD5.",
+    "link_text": "Visualizza checksum MD5",
+    "link_url": "/dist/rocky8/MD5SUMS.txt"
+  }
+}

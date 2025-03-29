@@ -1,0 +1,56 @@
+{
+  "title": "موقع تحميل مجتمع Apache Ambari",
+  "notice": {
+    "text": "تم إنشاء هذا الموقع وصيانته من قبل مطوري مجتمع Apache Ambari على نفقتهم الخاصة لتوفير خدمات تحميل مريحة. نظرًا للتمويل المحدود، نقدم حاليًا خدمات تحميل الملفات فقط، دون خدمات مستودع RPM."
+  },
+  "warning": {
+    "text": "ملاحظة: بعد التحميل، ستحتاج إلى إنشاء مستودع RPM محلي خاص بك. يرجى الرجوع إلى الدليل أدناه."
+  },
+  "download": {
+    "title": "روابط التحميل",
+    "rocky8": "تحميل حزم Rocky Linux 8",
+    "rocky9": "تحميل حزم Rocky Linux 9"
+  },
+  "repository": {
+    "title": "كيفية إنشاء مستودع RPM محلي",
+    "step1": {
+      "title": "1. تحميل حزم RPM المطلوبة",
+      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
+    },
+    "step2": {
+      "title": "2. تثبيت أداة createrepo",
+      "command": "sudo dnf install createrepo"
+    },
+    "step3": {
+      "title": "3. إنشاء المستودع المحلي",
+      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+    },
+    "step4": {
+      "title": "4. تكوين المستودع المحلي",
+      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+    }
+  },
+  "notes": {
+    "title": "ملاحظات هامة",
+    "items": [
+      "يرجى اختيار الحزم وفقًا لإصدار نظامك (Rocky 8 أو Rocky 9)",
+      "تأكد من وجود مساحة كافية على القرص عند إنشاء المستودع المحلي",
+      "يوصى بتحديث المستودع المحلي بانتظام للحصول على أحدث الحزم"
+    ]
+  },
+  "feedback": {
+    "title": "التعليقات",
+    "text": "إذا واجهت أي مشاكل، يرجى تقديم التعليقات من خلال:",
+    "jira": "Apache Ambari JIRA",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "قوائم بريد Apache Ambari",
+    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+  },
+  "footer": "يتم صيانة هذا الموقع من قبل مطوري مجتمع Apache Ambari",
+  "md5_notice": {
+    "title": "مجاميع التحقق MD5",
+    "text": "لأغراض الأمان، يمكنك التحقق من سلامة الملفات التي تم تنزيلها باستخدام مجاميع التحقق MD5.",
+    "link_text": "عرض مجاميع MD5",
+    "link_url": "/dist/rocky8/MD5SUMS.txt"
+  }
+}

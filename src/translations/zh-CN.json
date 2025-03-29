@@ -1,0 +1,67 @@
+{
+  "title": "Apache Ambari 社区下载站点",
+  "notice": {
+    "text": "欢迎访问 Apache Ambari 社区下载站点。在这里您可以找到最新版本的 Apache Ambari 和 Apache Bigtop 软件包。"
+  },
+  "warning": {
+    "text": "⚠️ 警告：这些软件包由社区维护，非 Apache 官方支持。使用风险自负。"
+  },
+  "bandwidth_notice": {
+    "title": "带宽提示",
+    "text": "本站点托管在带宽有限的服务器上。请合理使用下载资源。",
+    "contact_info": "如遇到带宽相关问题，请联系站点管理员。"
+  },
+  "sponsorship": {
+    "title": "赞助支持",
+    "text": "本站点由社区志愿者维护。我们欢迎赞助以帮助支付托管费用。",
+    "benefits": "赞助者将在站点上得到致谢并获得优先支持。",
+    "usage": "如需赞助相关事宜，请通过邮件列表联系我们。"
+  },
+  "download": {
+    "title": "下载",
+    "rocky8": "Rocky Linux 8 软件包",
+    "rocky9": "Rocky Linux 9 软件包"
+  },
+  "repository": {
+    "title": "创建本地仓库",
+    "step1": {
+      "title": "1. 安装 createrepo 软件包",
+      "command": "sudo dnf install createrepo"
+    },
+    "step2": {
+      "title": "2. 创建仓库目录",
+      "command": "sudo mkdir -p /var/www/html/ambari-repo\nsudo chmod -R 755 /var/www/html/ambari-repo"
+    },
+    "step3": {
+      "title": "3. 下载并移动 RPM 软件包",
+      "command": "cd /var/www/html/ambari-repo\nsudo wget -r -np -nH --cut-dirs=2 --reject \"index.html*\" https://www.apache-ambari.com/dist/rocky8/"
+    },
+    "step4": {
+      "title": "4. 创建仓库元数据",
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ."
+    }
+  },
+  "notes": {
+    "title": "重要说明",
+    "items": [
+      "所有软件包均针对 x86_64 架构构建",
+      "软件包已在 Rocky Linux 8 和 9 上测试",
+      "更新基于最大努力原则提供",
+      "请通过 JIRA 或邮件列表报告任何问题"
+    ]
+  },
+  "feedback": {
+    "title": "反馈与支持",
+    "text": "我们欢迎您的反馈和错误报告。请通过以下渠道联系：",
+    "jira": "JIRA 问题追踪",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "开发者邮件列表",
+    "mailing_list_link": "mailto:dev@ambari.apache.org"
+  },
+  "footer": "© 2024 Apache Ambari 社区。保留所有权利。",
+  "md5_notice": {
+    "title": "MD5 校验和",
+    "text": "为验证下载包的完整性，请检查 MD5 校验和。",
+    "link_text": "MD5 校验和"
+  }
+}

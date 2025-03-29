@@ -1,0 +1,67 @@
+{
+  "title": "Apache Ambari Community Download Site",
+  "notice": {
+    "text": "Welcome to the Apache Ambari Community Download Site. Here you can find the latest releases of Apache Ambari and Apache Bigtop packages."
+  },
+  "warning": {
+    "text": "⚠️ Warning: These packages are community-maintained and not officially supported by Apache. Use at your own risk."
+  },
+  "bandwidth_notice": {
+    "title": "Bandwidth Notice",
+    "text": "This site is hosted on a server with limited bandwidth. Please be considerate when downloading packages.",
+    "contact_info": "For any bandwidth-related issues, please contact the site administrators."
+  },
+  "sponsorship": {
+    "title": "Sponsorship",
+    "text": "This site is maintained by community volunteers. We welcome sponsorship to help cover hosting costs.",
+    "benefits": "Sponsors will be acknowledged on the site and receive priority support.",
+    "usage": "For sponsorship inquiries, please contact us through the mailing list."
+  },
+  "download": {
+    "title": "Downloads",
+    "rocky8": "Rocky Linux 8 Packages",
+    "rocky9": "Rocky Linux 9 Packages"
+  },
+  "repository": {
+    "title": "Creating Local Repository",
+    "step1": {
+      "title": "1. Install createrepo package",
+      "command": "sudo dnf install createrepo"
+    },
+    "step2": {
+      "title": "2. Create repository directory",
+      "command": "sudo mkdir -p /var/www/html/ambari-repo\nsudo chmod -R 755 /var/www/html/ambari-repo"
+    },
+    "step3": {
+      "title": "3. Download and move RPM packages",
+      "command": "cd /var/www/html/ambari-repo\nsudo wget -r -np -nH --cut-dirs=2 --reject \"index.html*\" https://www.apache-ambari.com/dist/rocky8/"
+    },
+    "step4": {
+      "title": "4. Create repository metadata",
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ."
+    }
+  },
+  "notes": {
+    "title": "Important Notes",
+    "items": [
+      "All packages are built for x86_64 architecture",
+      "Packages are tested on Rocky Linux 8 and 9",
+      "Updates are provided on a best-effort basis",
+      "Please report any issues through JIRA or the mailing list"
+    ]
+  },
+  "feedback": {
+    "title": "Feedback and Support",
+    "text": "We welcome your feedback and bug reports. Please use the following channels:",
+    "jira": "JIRA Issue Tracker",
+    "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
+    "mailing_list": "Developer Mailing List",
+    "mailing_list_link": "mailto:dev@ambari.apache.org"
+  },
+  "footer": "© 2024 Apache Ambari Community. All rights reserved.",
+  "md5_notice": {
+    "title": "MD5 Checksums",
+    "text": "To verify the integrity of downloaded packages, please check the MD5 checksums.",
+    "link_text": "MD5 Checksums"
+  }
+}
