@@ -58,7 +58,7 @@
     "mailing_list": "开发者邮件列表",
     "mailing_list_link": "mailto:dev@ambari.apache.org"
   },
-  "footer": "© 2024 Apache Ambari 社区。保留所有权利。",
+  "footer": "© 2024 Apache Ambari 社区. 保留所有权利。",
   "md5_notice": {
     "title": "MD5 校验和",
     "text": "为验证下载包的完整性，请检查 MD5 校验和。",

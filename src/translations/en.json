@@ -19,8 +19,7 @@
   },
   "download": {
     "title": "Downloads",
-    "rocky8": "Rocky Linux 8 Packages",
-    "rocky9": "Rocky Linux 9 Packages"
+    "source": "Download Source"
   },
   "repository": {
     "title": "Creating Local Repository",

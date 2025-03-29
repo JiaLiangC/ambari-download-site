@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apache Ambari Community Download Site</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container">
         <div id="languageSelector" class="language-selector">
+            <img src="images/language-icon.svg" alt="Language" class="language-icon">
+            <span>Language</span>
             <button onclick="toggleLanguageList()" class="language-button">
                 <span id="selectedLanguage">EN</span>
             </button>
@@ -29,9 +31,37 @@
         </div>
         
         <div id="loading" class="loading">Loading...</div>
-        <div id="content"></div>
+        <div id="content">
+            <h1>Apache Ambari Community Download Site</h1>
+            
+            <div class="notice">
+                This site is established and maintained by Apache Ambari community developers at their own expense to provide convenient download services. Due to limited funding, we currently only provide file download services, without RPM repository services.
+            </div>
+
+            <div class="warning">
+                Note: After downloading, you need to create your own local RPM repository. Please refer to the tutorial below.
+            </div>
+
+            <div class="version-section">
+                <h2>Apache Ambari 3.0.0</h2>
+                <div class="download-section">
+                    <ul>
+                        <li><a href="/dist/ambari/3.0.0/rocky8/">Rocky Linux 8</a></li>
+                        <li><a href="/dist/ambari/3.0.0/rocky9/">Rocky Linux 9</a></li>
+                    </ul>
+                </div>
+
+                <h2>Apache Bigtop 3.3.0</h2>
+                <div class="download-section">
+                    <ul>
+                        <li><a href="/dist/bigtop/3.3.0/rocky8/">Rocky Linux 8</a></li>
+                        <li><a href="/dist/bigtop/3.3.0/rocky9/">Rocky Linux 9</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <script src="/js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
