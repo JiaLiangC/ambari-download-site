@@ -1,56 +1,66 @@
 {
-  "title": "موقع تحميل مجتمع Apache Ambari",
+  "title": "Apache Ambari Community Download Site",
   "notice": {
-    "text": "تم إنشاء هذا الموقع وصيانته من قبل مطوري مجتمع Apache Ambari على نفقتهم الخاصة لتوفير خدمات تحميل مريحة. نظرًا للتمويل المحدود، نقدم حاليًا خدمات تحميل الملفات فقط، دون خدمات مستودع RPM."
+    "text": "Welcome to the Apache Ambari Community Download Site. Here you can find the latest releases of Apache Ambari and Apache Bigtop packages."
   },
   "warning": {
-    "text": "ملاحظة: بعد التحميل، ستحتاج إلى إنشاء مستودع RPM محلي خاص بك. يرجى الرجوع إلى الدليل أدناه."
+    "text": "⚠️ Warning: These packages are community-maintained and not officially supported by Apache. Use at your own risk."
+  },
+  "bandwidth_notice": {
+    "title": "Bandwidth Notice",
+    "text": "This site is hosted on a server with limited bandwidth. Please be considerate when downloading packages.",
+    "contact_info": "For any bandwidth-related issues, please contact the site administrators."
+  },
+  "sponsorship": {
+    "title": "Sponsorship",
+    "text": "This site is maintained by community volunteers. We welcome sponsorship to help cover hosting costs.",
+    "benefits": "Sponsors will be acknowledged on the site and receive priority support.",
+    "usage": "For sponsorship inquiries, please contact us through the mailing list."
   },
   "download": {
-    "title": "روابط التحميل",
-    "rocky8": "تحميل حزم Rocky Linux 8",
-    "rocky9": "تحميل حزم Rocky Linux 9"
+    "title": "Downloads",
+    "source": "Download Source"
   },
   "repository": {
-    "title": "كيفية إنشاء مستودع RPM محلي",
+    "title": "Creating Local Repository",
     "step1": {
-      "title": "1. تحميل حزم RPM المطلوبة",
-      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
-    },
-    "step2": {
-      "title": "2. تثبيت أداة createrepo",
+      "title": "1. Install createrepo package",
       "command": "sudo dnf install createrepo"
     },
+    "step2": {
+      "title": "2. Create repository directory",
+      "command": "sudo mkdir -p /var/www/html/ambari-repo/{ambari,bigtop}\nsudo chmod -R 755 /var/www/html/ambari-repo"
+    },
     "step3": {
-      "title": "3. إنشاء المستودع المحلي",
-      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+      "title": "3. Download and move RPM packages",
+      "command": "# For Rocky Linux 8:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky8/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky8/\n\n# For Rocky Linux 9:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky9/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky9/"
     },
     "step4": {
-      "title": "4. تكوين المستودع المحلي",
-      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+      "title": "4. Create repository metadata",
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ambari\nsudo createrepo bigtop"
     }
   },
   "notes": {
-    "title": "ملاحظات هامة",
+    "title": "Important Notes",
     "items": [
-      "يرجى اختيار الحزم وفقًا لإصدار نظامك (Rocky 8 أو Rocky 9)",
-      "تأكد من وجود مساحة كافية على القرص عند إنشاء المستودع المحلي",
-      "يوصى بتحديث المستودع المحلي بانتظام للحصول على أحدث الحزم"
+      "All packages are built for x86_64 architecture",
+      "Packages are tested on Rocky Linux 8 and 9",
+      "Updates are provided on a best-effort basis",
+      "Please report any issues through JIRA or the mailing list"
     ]
   },
   "feedback": {
-    "title": "التعليقات",
-    "text": "إذا واجهت أي مشاكل، يرجى تقديم التعليقات من خلال:",
-    "jira": "Apache Ambari JIRA",
+    "title": "Feedback and Support",
+    "text": "We welcome your feedback and bug reports. Please use the following channels:",
+    "jira": "JIRA Issue Tracker",
     "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
-    "mailing_list": "قوائم بريد Apache Ambari",
-    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+    "mailing_list": "Developer Mailing List",
+    "mailing_list_link": "mailto:dev@ambari.apache.org"
   },
-  "footer": "يتم صيانة هذا الموقع من قبل مطوري مجتمع Apache Ambari",
+  "footer": "© 2024 Apache Ambari Community. All rights reserved.",
   "md5_notice": {
-    "title": "مجاميع التحقق MD5",
-    "text": "لأغراض الأمان، يمكنك التحقق من سلامة الملفات التي تم تنزيلها باستخدام مجاميع التحقق MD5.",
-    "link_text": "عرض مجاميع MD5",
-    "link_url": "/dist/rocky8/MD5SUMS.txt"
+    "title": "MD5 Checksums",
+    "text": "To verify the integrity of downloaded packages, please check the MD5 checksums.",
+    "link_text": "MD5 Checksums"
   }
 }

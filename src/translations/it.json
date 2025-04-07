@@ -1,67 +1,66 @@
 {
-  "title": "Sito di Download della Comunità Apache Ambari",
+  "title": "Apache Ambari Community Download Site",
   "notice": {
-    "text": "Questo sito è costruito e mantenuto dagli sviluppatori della comunità Apache Ambari a proprie spese. A causa di fondi limitati, attualmente offriamo solo il servizio di download dei file, senza servizio di repository RPM."
+    "text": "Welcome to the Apache Ambari Community Download Site. Here you can find the latest releases of Apache Ambari and Apache Bigtop packages."
   },
   "warning": {
-    "text": "Attenzione: Dopo il download, dovrai creare il tuo repository RPM locale. Consulta il tutorial qui sotto per le istruzioni."
+    "text": "⚠️ Warning: These packages are community-maintained and not officially supported by Apache. Use at your own risk."
   },
   "bandwidth_notice": {
-    "title": "Avviso sul Limite di Banda",
-    "text": "Il server ha un limite di banda mensile di 3TB. Si prega di conservare i file in modo appropriato dopo il download.",
-    "contact_info": "Per problemi di download o domande sulle sponsorizzazioni, contattare lo sviluppatore della comunità: jialiangcaimd@gmail.com"
+    "title": "Bandwidth Notice",
+    "text": "This site is hosted on a server with limited bandwidth. Please be considerate when downloading packages.",
+    "contact_info": "For any bandwidth-related issues, please contact the site administrators."
   },
   "sponsorship": {
-    "title": "Informazioni sulle Sponsorizzazioni",
-    "text": "Questo sito è attualmente gestito dal contributore della comunità jialiangcaimd@gmail.com. Se desideri sponsorizzare, ti preghiamo di contattarci.",
-    "benefits": "L'elenco degli sponsor e delle aziende sponsor sarà pubblicato sul sito web ufficiale di Apache Ambari.",
-    "usage": "L'utilizzo di tutti i fondi di sponsorizzazione sarà documentato sul sito web ufficiale, principalmente per i costi del server e la distribuzione CDN RPM."
+    "title": "Sponsorship",
+    "text": "This site is maintained by community volunteers. We welcome sponsorship to help cover hosting costs.",
+    "benefits": "Sponsors will be acknowledged on the site and receive priority support.",
+    "usage": "For sponsorship inquiries, please contact us through the mailing list."
   },
   "download": {
-    "title": "Link per il Download",
-    "rocky8": "Scarica i Pacchetti per Rocky Linux 8",
-    "rocky9": "Scarica i Pacchetti per Rocky Linux 9"
+    "title": "Downloads",
+    "source": "Download Source"
   },
   "repository": {
-    "title": "Come Creare un Repository RPM Locale",
+    "title": "Creating Local Repository",
     "step1": {
-      "title": "1. Scaricare i pacchetti RPM necessari",
-      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
-    },
-    "step2": {
-      "title": "2. Installare lo strumento createrepo",
+      "title": "1. Install createrepo package",
       "command": "sudo dnf install createrepo"
     },
+    "step2": {
+      "title": "2. Create repository directory",
+      "command": "sudo mkdir -p /var/www/html/ambari-repo/{ambari,bigtop}\nsudo chmod -R 755 /var/www/html/ambari-repo"
+    },
     "step3": {
-      "title": "3. Creare il repository locale",
-      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+      "title": "3. Download and move RPM packages",
+      "command": "# For Rocky Linux 8:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky8/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky8/\n\n# For Rocky Linux 9:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky9/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky9/"
     },
     "step4": {
-      "title": "4. Configurare il repository locale",
-      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+      "title": "4. Create repository metadata",
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ambari\nsudo createrepo bigtop"
     }
   },
   "notes": {
-    "title": "Note Importanti",
+    "title": "Important Notes",
     "items": [
-      "Seleziona i pacchetti in base alla versione del tuo sistema (Rocky 8 o Rocky 9)",
-      "Assicurati di avere spazio su disco sufficiente per creare il repository locale",
-      "Si consiglia di aggiornare regolarmente il repository locale per ottenere i pacchetti più recenti"
+      "All packages are built for x86_64 architecture",
+      "Packages are tested on Rocky Linux 8 and 9",
+      "Updates are provided on a best-effort basis",
+      "Please report any issues through JIRA or the mailing list"
     ]
   },
   "feedback": {
-    "title": "Feedback",
-    "text": "Se riscontri problemi durante l'utilizzo, fornisci un feedback tramite:",
-    "jira": "Apache Ambari JIRA",
+    "title": "Feedback and Support",
+    "text": "We welcome your feedback and bug reports. Please use the following channels:",
+    "jira": "JIRA Issue Tracker",
     "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
-    "mailing_list": "Lista di Distribuzione Apache Ambari",
-    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+    "mailing_list": "Developer Mailing List",
+    "mailing_list_link": "mailto:dev@ambari.apache.org"
   },
-  "footer": "Questo sito è mantenuto dagli sviluppatori della comunità Apache Ambari",
+  "footer": "© 2024 Apache Ambari Community. All rights reserved.",
   "md5_notice": {
-    "title": "Checksum MD5",
-    "text": "Per motivi di sicurezza, puoi verificare l'integrità dei file scaricati utilizzando i checksum MD5.",
-    "link_text": "Visualizza checksum MD5",
-    "link_url": "/dist/rocky8/MD5SUMS.txt"
+    "title": "MD5 Checksums",
+    "text": "To verify the integrity of downloaded packages, please check the MD5 checksums.",
+    "link_text": "MD5 Checksums"
   }
 }

@@ -30,15 +30,15 @@
     },
     "step2": {
       "title": "2. 创建仓库目录",
-      "command": "sudo mkdir -p /var/www/html/ambari-repo\nsudo chmod -R 755 /var/www/html/ambari-repo"
+      "command": "sudo mkdir -p /var/www/html/ambari-repo/{ambari,bigtop}\nsudo chmod -R 755 /var/www/html/ambari-repo"
     },
     "step3": {
       "title": "3. 下载并移动 RPM 软件包",
-      "command": "cd /var/www/html/ambari-repo\nsudo wget -r -np -nH --cut-dirs=2 --reject \"index.html*\" https://www.apache-ambari.com/dist/rocky8/"
+      "command": "# Rocky Linux 8 系统：\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky8/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky8/\n\n# Rocky Linux 9 系统：\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky9/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky9/"
     },
     "step4": {
       "title": "4. 创建仓库元数据",
-      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ."
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ambari\nsudo createrepo bigtop"
     }
   },
   "notes": {

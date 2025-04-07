@@ -1,67 +1,66 @@
 {
-  "title": "Apache Ambari 커뮤니티 다운로드 사이트",
+  "title": "Apache Ambari Community Download Site",
   "notice": {
-    "text": "이 사이트는 Apache Ambari 커뮤니티 개발자들이 자비로 구축하고 유지하고 있습니다. 자금이 제한적이어서 현재는 파일 다운로드 서비스만 제공하고 있으며, RPM 저장소 서비스는 제공하지 않습니다."
+    "text": "Welcome to the Apache Ambari Community Download Site. Here you can find the latest releases of Apache Ambari and Apache Bigtop packages."
   },
   "warning": {
-    "text": "주의: 다운로드 후에는 로컬 RPM 저장소를 직접 생성해야 합니다. 자세한 방법은 아래 튜토리얼을 참조하세요."
+    "text": "⚠️ Warning: These packages are community-maintained and not officially supported by Apache. Use at your own risk."
   },
   "bandwidth_notice": {
-    "title": "대역폭 제한 안내",
-    "text": "서버의 월간 대역폭 제한은 3TB입니다. 다운로드한 파일을 적절히 보관해 주시기 바랍니다.",
-    "contact_info": "다운로드 문제나 후원 문의는 커뮤니티 개발자(jialiangcaimd@gmail.com)에게 연락해 주시기 바랍니다."
+    "title": "Bandwidth Notice",
+    "text": "This site is hosted on a server with limited bandwidth. Please be considerate when downloading packages.",
+    "contact_info": "For any bandwidth-related issues, please contact the site administrators."
   },
   "sponsorship": {
-    "title": "후원 정보",
-    "text": "이 사이트는 현재 커뮤니티 기여자 jialiangcaimd@gmail.com이 관리하고 있습니다. 후원을 원하시면 연락 주시기 바랍니다.",
-    "benefits": "후원자와 후원 기업 목록은 Apache Ambari 공식 웹사이트에 게시됩니다.",
-    "usage": "모든 후원금의 사용 내역은 공식 웹사이트에 공개되며, 주로 서버 비용과 RPM CDN 배포에 사용됩니다."
+    "title": "Sponsorship",
+    "text": "This site is maintained by community volunteers. We welcome sponsorship to help cover hosting costs.",
+    "benefits": "Sponsors will be acknowledged on the site and receive priority support.",
+    "usage": "For sponsorship inquiries, please contact us through the mailing list."
   },
   "download": {
-    "title": "다운로드 링크",
-    "rocky8": "Rocky Linux 8 패키지 다운로드",
-    "rocky9": "Rocky Linux 9 패키지 다운로드"
+    "title": "Downloads",
+    "source": "Download Source"
   },
   "repository": {
-    "title": "로컬 RPM 저장소 생성 방법",
+    "title": "Creating Local Repository",
     "step1": {
-      "title": "1. 필요한 RPM 패키지 다운로드",
-      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
-    },
-    "step2": {
-      "title": "2. createrepo 도구 설치",
+      "title": "1. Install createrepo package",
       "command": "sudo dnf install createrepo"
     },
+    "step2": {
+      "title": "2. Create repository directory",
+      "command": "sudo mkdir -p /var/www/html/ambari-repo/{ambari,bigtop}\nsudo chmod -R 755 /var/www/html/ambari-repo"
+    },
     "step3": {
-      "title": "3. 로컬 저장소 생성",
-      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+      "title": "3. Download and move RPM packages",
+      "command": "# For Rocky Linux 8:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky8/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky8/\n\n# For Rocky Linux 9:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky9/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky9/"
     },
     "step4": {
-      "title": "4. 로컬 저장소 설정",
-      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+      "title": "4. Create repository metadata",
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ambari\nsudo createrepo bigtop"
     }
   },
   "notes": {
-    "title": "주의사항",
+    "title": "Important Notes",
     "items": [
-      "시스템 버전에 맞는 패키지(Rocky 8 또는 Rocky 9)를 선택하세요",
-      "로컬 저장소 생성 시 충분한 디스크 공간을 확보하세요",
-      "최신 패키지를 받으려면 정기적으로 로컬 저장소를 업데이트하는 것을 권장합니다"
+      "All packages are built for x86_64 architecture",
+      "Packages are tested on Rocky Linux 8 and 9",
+      "Updates are provided on a best-effort basis",
+      "Please report any issues through JIRA or the mailing list"
     ]
   },
   "feedback": {
-    "title": "피드백",
-    "text": "사용 중 문제가 발생하면 다음 방법으로 피드백을 주시기 바랍니다:",
-    "jira": "Apache Ambari JIRA",
+    "title": "Feedback and Support",
+    "text": "We welcome your feedback and bug reports. Please use the following channels:",
+    "jira": "JIRA Issue Tracker",
     "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
-    "mailing_list": "Apache Ambari 메일링 리스트",
-    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+    "mailing_list": "Developer Mailing List",
+    "mailing_list_link": "mailto:dev@ambari.apache.org"
   },
-  "footer": "이 사이트는 Apache Ambari 커뮤니티 개발자들이 유지보수하고 있습니다",
+  "footer": "© 2024 Apache Ambari Community. All rights reserved.",
   "md5_notice": {
-    "title": "MD5 체크섬",
-    "text": "보안을 위해 다운로드한 파일의 무결성을 MD5 체크섬으로 확인할 수 있습니다.",
-    "link_text": "MD5 체크섬 보기",
-    "link_url": "/dist/rocky8/MD5SUMS.txt"
+    "title": "MD5 Checksums",
+    "text": "To verify the integrity of downloaded packages, please check the MD5 checksums.",
+    "link_text": "MD5 Checksums"
   }
 }

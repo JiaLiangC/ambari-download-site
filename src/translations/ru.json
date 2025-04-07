@@ -1,56 +1,66 @@
 {
-  "title": "Сайт Загрузки Сообщества Apache Ambari",
+  "title": "Apache Ambari Community Download Site",
   "notice": {
-    "text": "Этот сайт создан и поддерживается разработчиками сообщества Apache Ambari за свой счет для предоставления удобных услуг загрузки. Из-за ограниченного финансирования в настоящее время мы предоставляем только услуги загрузки файлов, без служб репозитория RPM."
+    "text": "Welcome to the Apache Ambari Community Download Site. Here you can find the latest releases of Apache Ambari and Apache Bigtop packages."
   },
   "warning": {
-    "text": "Примечание: После загрузки вам необходимо создать свой локальный репозиторий RPM. Пожалуйста, обратитесь к руководству ниже."
+    "text": "⚠️ Warning: These packages are community-maintained and not officially supported by Apache. Use at your own risk."
+  },
+  "bandwidth_notice": {
+    "title": "Bandwidth Notice",
+    "text": "This site is hosted on a server with limited bandwidth. Please be considerate when downloading packages.",
+    "contact_info": "For any bandwidth-related issues, please contact the site administrators."
+  },
+  "sponsorship": {
+    "title": "Sponsorship",
+    "text": "This site is maintained by community volunteers. We welcome sponsorship to help cover hosting costs.",
+    "benefits": "Sponsors will be acknowledged on the site and receive priority support.",
+    "usage": "For sponsorship inquiries, please contact us through the mailing list."
   },
   "download": {
-    "title": "Ссылки для Загрузки",
-    "rocky8": "Загрузка Пакетов Rocky Linux 8",
-    "rocky9": "Загрузка Пакетов Rocky Linux 9"
+    "title": "Downloads",
+    "source": "Download Source"
   },
   "repository": {
-    "title": "Как Создать Локальный Репозиторий RPM",
+    "title": "Creating Local Repository",
     "step1": {
-      "title": "1. Загрузить Необходимые Пакеты RPM",
-      "command": "mkdir -p ~/ambari-rpms/rocky8\ncd ~/ambari-rpms/rocky8\nwget -r -np -nH --cut-dirs=2 https://apache-ambari.com/dist/rocky8/"
-    },
-    "step2": {
-      "title": "2. Установить Инструмент createrepo",
+      "title": "1. Install createrepo package",
       "command": "sudo dnf install createrepo"
     },
+    "step2": {
+      "title": "2. Create repository directory",
+      "command": "sudo mkdir -p /var/www/html/ambari-repo/{ambari,bigtop}\nsudo chmod -R 755 /var/www/html/ambari-repo"
+    },
     "step3": {
-      "title": "3. Создать Локальный Репозиторий",
-      "command": "cd ~/ambari-rpms/rocky8\ncreaterepo ."
+      "title": "3. Download and move RPM packages",
+      "command": "# For Rocky Linux 8:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky8/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky8/\n\n# For Rocky Linux 9:\ncd /var/www/html/ambari-repo/ambari\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/ambari/3.0.0/rocky9/\n\ncd /var/www/html/ambari-repo/bigtop\nwget -r -np -nH --cut-dirs=4 --reject 'index.html*' https://www.apache-ambari.com/dist/bigtop/3.3.0/rocky9/"
     },
     "step4": {
-      "title": "4. Настроить Локальный Репозиторий",
-      "command": "sudo tee /etc/yum.repos.d/local-ambari.repo << EOL\n[local-ambari]\nname=Local Apache Ambari Repository\nbaseurl=file:///home/YOUR_USERNAME/ambari-rpms/rocky8\nenabled=1\ngpgcheck=0\nEOL"
+      "title": "4. Create repository metadata",
+      "command": "cd /var/www/html/ambari-repo\nsudo createrepo ambari\nsudo createrepo bigtop"
     }
   },
   "notes": {
-    "title": "Важные Примечания",
+    "title": "Important Notes",
     "items": [
-      "Пожалуйста, выбирайте пакеты в соответствии с версией вашей системы (Rocky 8 или Rocky 9)",
-      "Убедитесь, что при создании локального репозитория достаточно места на диске",
-      "Рекомендуется регулярно обновлять локальный репозиторий для получения последних пакетов"
+      "All packages are built for x86_64 architecture",
+      "Packages are tested on Rocky Linux 8 and 9",
+      "Updates are provided on a best-effort basis",
+      "Please report any issues through JIRA or the mailing list"
     ]
   },
   "feedback": {
-    "title": "Обратная Связь",
-    "text": "Если вы столкнулись с проблемами, пожалуйста, оставьте отзыв через:",
-    "jira": "Apache Ambari JIRA",
+    "title": "Feedback and Support",
+    "text": "We welcome your feedback and bug reports. Please use the following channels:",
+    "jira": "JIRA Issue Tracker",
     "jira_link": "https://issues.apache.org/jira/projects/AMBARI",
-    "mailing_list": "Списки Рассылки Apache Ambari",
-    "mailing_list_link": "https://ambari.apache.org/mail-lists.html"
+    "mailing_list": "Developer Mailing List",
+    "mailing_list_link": "mailto:dev@ambari.apache.org"
   },
-  "footer": "Этот сайт поддерживается разработчиками сообщества Apache Ambari",
+  "footer": "© 2024 Apache Ambari Community. All rights reserved.",
   "md5_notice": {
-    "title": "Контрольные суммы MD5",
-    "text": "В целях безопасности вы можете проверить целостность загруженных файлов с помощью контрольных сумм MD5.",
-    "link_text": "Просмотр MD5",
-    "link_url": "/dist/rocky8/MD5SUMS.txt"
+    "title": "MD5 Checksums",
+    "text": "To verify the integrity of downloaded packages, please check the MD5 checksums.",
+    "link_text": "MD5 Checksums"
   }
 }
