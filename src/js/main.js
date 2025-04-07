@@ -77,8 +77,8 @@ async function renderContent(translation) {
             <h2>Apache Ambari Bigtop stack 3.0.0 MD5 Checksums</h2>
             <p>For security purposes, you can verify the integrity of the downloaded files using MD5 checksums.</p>
             <ul>
-                <li><a href="/dist/bigtop/3.3.0/rocky8/md5sums.txt">View MD5 Checksums - Rocky Linux 8</a></li>
-                <li><a href="/dist/bigtop/3.3.0/rocky9/md5sums.txt">View MD5 Checksums - Rocky Linux 9</a></li>
+                <li><a href="/dist/bigtop/3.3.0/rocky8/MD5SUMS.txt">View MD5 Checksums - Rocky Linux 8</a></li>
+                <li><a href="/dist/bigtop/3.3.0/rocky9/MD5SUMS.txt">View MD5 Checksums - Rocky Linux 9</a></li>
             </ul>
         </div>
 
